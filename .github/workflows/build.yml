@@ -26,3 +26,5 @@ jobs:
         with:
           # name: build_${{ github.sha }}
           path: target/debug/example-workflow-artifacts
+      - name: Run the binary
+        run: ./target/debug/example-workflow-artifacts
