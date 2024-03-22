@@ -7,6 +7,9 @@ on:
       - release-*
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+
   download_and_run:
     steps:
       # Get the workflow run that has the latest build for release-1 branch.
