@@ -24,7 +24,7 @@ jobs:
       - name: Download the latest build
         uses: actions/download-artifact@v4
         with:
-          name: example-workflow-artifacts
+          name: build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
           run-id: ${{ steps.get_latest_workflow_run_id_release_1.outputs.LATEST_WORKFLOW_RUN_ID }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Create target/debug directory
