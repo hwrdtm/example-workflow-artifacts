@@ -1,7 +1,10 @@
 name: download-and-run
 on:
   workflow_dispatch: {}
-  pull_request:
+  push:
+    branches-ignore:
+      - main
+      - release-*
 
 jobs:
   download_and_run:
