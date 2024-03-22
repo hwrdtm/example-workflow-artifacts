@@ -18,3 +18,7 @@ tokio = { version = "1.23.0", features = ["full"] }
 [[bin]]
 name = "get_latest_workflow_run"
 path = "bin/get_latest_workflow_run.rs"
+
+[[bin]]
+name = "get_target_branch_commit_hash"
+path = "bin/get_target_branch_commit_hash.rs"
