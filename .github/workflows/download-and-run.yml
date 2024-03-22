@@ -25,20 +25,22 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: List the files in this directory
         run: ls -al
-      - name: Get the latest commit SHA
-        id: get_latest_commit_sha_release_1
-        run: echo "COMMIT_SHA=$(cd ci_utils && cargo run --bin get_target_branch_commit_hash release-1)" >> "$GITHUB_OUTPUT"
-      - name: Create target/debug directory
-        run: mkdir -p target/debug
-      # - name: Unzip the downloaded artifact
-      #   run: unzip build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }} -d target/debug/
-      - name: Move the downloaded artifact
-        run: mv build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }} target/debug/build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
-      - name: List the files in the target/debug directory
-        run: ls -al target/debug
-      # - name: Rename the downloaded artifact
-      #   run: mv target/debug/example-workflow-artifacts target/debug/build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
-      - name: Enable execute permission
-        run: chmod +x target/debug/build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
-      - name: Run the downloaded binary
-        run: ./target/debug/build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
+      - name: Run the binary
+        run: ./example-workflow-artifacts
+      # - name: Get the latest commit SHA
+      #   id: get_latest_commit_sha_release_1
+      #   run: echo "COMMIT_SHA=$(cd ci_utils && cargo run --bin get_target_branch_commit_hash release-1)" >> "$GITHUB_OUTPUT"
+      # - name: Create target/debug directory
+      #   run: mkdir -p target/debug
+      # # - name: Unzip the downloaded artifact
+      # #   run: unzip build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }} -d target/debug/
+      # - name: Move the downloaded artifact
+      #   run: mv build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }} target/debug/build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
+      # - name: List the files in the target/debug directory
+      #   run: ls -al target/debug
+      # # - name: Rename the downloaded artifact
+      # #   run: mv target/debug/example-workflow-artifacts target/debug/build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
+      # - name: Enable execute permission
+      #   run: chmod +x target/debug/build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
+      # - name: Run the downloaded binary
+      #   run: ./target/debug/build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
