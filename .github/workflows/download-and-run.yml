@@ -32,5 +32,7 @@ jobs:
         run: ls -al target/debug
       - name: Move the downloaded artifact
         run: mv build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}/example-workflow-artifacts target/debug/build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
+      - name: Enable execute permission for the binary
+        run: chmod +x ./target/debug/build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
       - name: Run the downloaded binary
         run: ./target/debug/build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
