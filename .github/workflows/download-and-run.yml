@@ -26,13 +26,11 @@ jobs:
       - name: Get the latest commit SHA
         id: get_latest_commit_sha_release_1
         run: echo "COMMIT_SHA=$(cd ci_utils && cargo run --bin get_target_branch_commit_hash release-1)" >> "$GITHUB_OUTPUT"
-      - name: List the files in the downloaded artifact
-        run: ls -al build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
       - name: Create target/debug directory
         run: mkdir -p target/debug
       - name: List the files in target/debug
         run: ls -al target/debug
       - name: Move the downloaded artifact
-        run: mv build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}/build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }} target/debug/build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
+        run: mv build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}/example-workflow-artifacts target/debug/build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
       - name: Run the downloaded binary
         run: ./target/debug/build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
