@@ -1,0 +1,21 @@
+name: download-and-run
+on:
+  workflow_dispatch: {}
+  pull_request:
+
+jobs:
+  download_and_run:
+    steps:
+      # Get the workflow run that has the latest build for release-1 branch.
+      - name: Get the latest build for release-1 branch
+        id: get_latest_workflow_run_id_release_1
+        # Set the stdout of running `cd ci_utils && cargo run --bin get_latest_workflow_run build release-1` to the output of this step.
+        run:
+          echo "LATEST_WORKFLOW_RUN_ID=$(cd ci_utils && cargo run --bin get_latest_workflow_run build release-1)" >> "$GITHUB_ENV"
+        env:
+          GH_PAT: ${{ secrets.GITHUB_TOKEN }}
+      - name: Download the latest build for release-1 branch
+        uses: actions/download-artifact@v4
+        with:
+          run-id: ${{ steps.get_latest_workflow_run_id_release_1.outputs.LATEST_WORKFLOW_RUN_ID }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
