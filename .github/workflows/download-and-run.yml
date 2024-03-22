@@ -28,9 +28,10 @@ jobs:
         run: echo "COMMIT_SHA=$(cd ci_utils && cargo run --bin get_target_branch_commit_hash release-1)" >> "$GITHUB_OUTPUT"
       - name: Create target/debug directory
         run: mkdir -p target/debug
-      # Move the downloaded artifact build_{COMMIT_SHA} to target/debug directory.
-      - name: Move downloaded artifact
-        run: mv build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }} target/debug/
+      - name: Unzip the downloaded artifact
+        run: unzip build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }} -d target/debug/
+      - name: Rename the downloaded artifact
+        run: mv target/debug/example-workflow-artifacts target/debug/build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
       - name: Enable execute permission
         run: chmod +x target/debug/build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
       - name: Run the downloaded binary
