@@ -23,3 +23,7 @@ jobs:
         with:
           run-id: ${{ steps.get_latest_workflow_run_id_release_1.outputs.LATEST_WORKFLOW_RUN_ID }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Enable execute permission
+        run: chmod +x target/debug/*
+      - name: Run the downloaded binary
+        run: ./target/debug/example-workflow-artifacts
