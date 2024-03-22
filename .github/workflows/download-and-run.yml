@@ -23,6 +23,8 @@ jobs:
         with:
           run-id: ${{ steps.get_latest_workflow_run_id_release_1.outputs.LATEST_WORKFLOW_RUN_ID }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
+      - name: List the files in this directory
+        run: ls
       - name: Get the latest commit SHA
         id: get_latest_commit_sha_release_1
         run: echo "COMMIT_SHA=$(cd ci_utils && cargo run --bin get_target_branch_commit_hash release-1)" >> "$GITHUB_OUTPUT"
