@@ -8,6 +8,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v3
       # Get the workflow run that has the latest build for release-1 branch.
       - name: Get the latest build for release-1 branch
         id: get_latest_workflow_run_id_release_1
