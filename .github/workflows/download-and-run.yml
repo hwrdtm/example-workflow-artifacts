@@ -18,20 +18,19 @@ jobs:
           echo "LATEST_WORKFLOW_RUN_ID=$(cd ci_utils && cargo run --bin get_latest_workflow_run build release-1)" >> "$GITHUB_OUTPUT"
         env:
           GH_PAT: ${{ secrets.GITHUB_TOKEN }}
-      - name: Download the latest build
-        uses: actions/download-artifact@v4
-        with:
-          run-id: ${{ steps.get_latest_workflow_run_id_release_1.outputs.LATEST_WORKFLOW_RUN_ID }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Get the latest commit SHA
         id: get_latest_commit_sha_release_1
         run: echo "COMMIT_SHA=$(cd ci_utils && cargo run --bin get_target_branch_commit_hash release-1)" >> "$GITHUB_OUTPUT"
+      - name: Download the latest build
+        uses: actions/download-artifact@v4
+        with:
+          name: example-workflow-artifacts
+          run-id: ${{ steps.get_latest_workflow_run_id_release_1.outputs.LATEST_WORKFLOW_RUN_ID }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Create target/debug directory
         run: mkdir -p target/debug
-      - name: List the files in target/debug
-        run: ls -al target/debug
       - name: Move the downloaded artifact
-        run: mv build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}/example-workflow-artifacts target/debug/build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
+        run: mv example-workflow-artifacts target/debug/build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
       - name: Enable execute permission for the binary
         run: chmod +x ./target/debug/build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
       - name: Run the downloaded binary
