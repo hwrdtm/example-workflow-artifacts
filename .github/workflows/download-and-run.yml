@@ -27,7 +27,7 @@ jobs:
         # Extract the run ID from the last line of the tempfile and save it to the GITHUB_OUTPUT file.
         run: |
           cd ci_utils
-          RUST_LOG=debug cargo run --bin get_latest_workflow_run build 'origin/release-branch-*' > ./workflow_run_id_release_branch.log 2>&1
+          RUST_LOG=debug cargo run --bin get_latest_workflow_run build 'origin/release-branch-*'
         env:
           GH_PAT: ${{ secrets.GITHUB_TOKEN }}
       - name: Get the latest commit SHA
