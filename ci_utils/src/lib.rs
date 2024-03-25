@@ -18,7 +18,11 @@ pub fn get_target_branch(target_branch: &str) -> Result<String> {
 
         let branches = String::from_utf8_lossy(&git_branch_command.stdout);
         let branches: Vec<&str> = branches.split('\n').collect();
-        let branches: Vec<&str> = branches.iter().map(|b| b.trim()).collect();
+        let branches: Vec<&str> = branches
+            .iter()
+            .map(|b| b.trim())
+            .filter(|b| !b.is_empty())
+            .collect();
         if branches.is_empty() {
             return Err(anyhow::anyhow!("No release branches found"));
         }
