@@ -15,6 +15,7 @@ jobs:
       - name: Git Branches
         run: |
           git branch --remotes
+          git --version
           git branch -al 'origin/release-branch-2024-03-22'
       # Get the workflow run that has the build for the latest release-branch-* branch.
       - name: Get the latest build
