@@ -10,28 +10,28 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
-      # Get the workflow run that has the latest build for release-1 branch.
+      # Get the workflow run that has the build for the latest release-branch-* branch.
       - name: Get the latest build
         id: get_latest_workflow_run_id_release_1
-        # Set the stdout of running `cd ci_utils && cargo run --bin get_latest_workflow_run build release-1` to the output of this step.
+        # Set the stdout of running `cd ci_utils && cargo run --bin get_latest_workflow_run build release-branch-*` to the output of this step.
         run:
-          echo "LATEST_WORKFLOW_RUN_ID=$(cd ci_utils && cargo run --bin get_latest_workflow_run build release-1)" >> "$GITHUB_OUTPUT"
+          echo "LATEST_WORKFLOW_RUN_ID=$(cd ci_utils && cargo run --bin get_latest_workflow_run build release-branch-*)" >> "$GITHUB_OUTPUT"
         env:
           GH_PAT: ${{ secrets.GITHUB_TOKEN }}
       - name: Get the latest commit SHA
-        id: get_latest_commit_sha_release_1
-        run: echo "COMMIT_SHA=$(cd ci_utils && cargo run --bin get_target_branch_commit_hash release-1)" >> "$GITHUB_OUTPUT"
+        id: get_latest_commit_sha_release_branch
+        run: echo "COMMIT_SHA=$(cd ci_utils && cargo run --bin get_target_branch_commit_hash release-branch-*)" >> "$GITHUB_OUTPUT"
       - name: Download the latest build
         uses: actions/download-artifact@v4
         with:
-          name: build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
+          name: build_${{ steps.get_latest_commit_sha_release_branch.outputs.COMMIT_SHA }}
           run-id: ${{ steps.get_latest_workflow_run_id_release_1.outputs.LATEST_WORKFLOW_RUN_ID }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
       - name: Create target/debug directory
         run: mkdir -p target/debug
       - name: Move the downloaded artifact
-        run: mv example-workflow-artifacts target/debug/build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
+        run: mv example-workflow-artifacts target/debug/build_${{ steps.get_latest_commit_sha_release_branch.outputs.COMMIT_SHA }}
       - name: Enable execute permission for the binary
-        run: chmod +x ./target/debug/build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
+        run: chmod +x ./target/debug/build_${{ steps.get_latest_commit_sha_release_branch.outputs.COMMIT_SHA }}
       - name: Run the downloaded binary
-        run: ./target/debug/build_${{ steps.get_latest_commit_sha_release_1.outputs.COMMIT_SHA }}
+        run: ./target/debug/build_${{ steps.get_latest_commit_sha_release_branch.outputs.COMMIT_SHA }}
