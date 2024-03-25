@@ -4,7 +4,7 @@ use anyhow::Result;
 use log::info;
 
 pub fn get_target_branch(target_branch: &str) -> Result<String> {
-    if target_branch.contains('*') {
+    let target_branch = if target_branch.contains('*') {
         let git_branch_command = Command::new("git")
             .args(&["branch", "-al", target_branch])
             .output()
@@ -43,10 +43,14 @@ pub fn get_target_branch(target_branch: &str) -> Result<String> {
                 a_date.cmp(&b_date)
             })
             .unwrap();
-        Ok(latest_branch.to_string())
+        latest_branch.to_string()
     } else {
-        Ok(target_branch.to_string())
-    }
+        target_branch.to_string()
+    };
+
+    // Strip the 'remotes/' prefix if it exists.
+    let target_branch = target_branch.trim_start_matches("remotes/");
+    Ok(target_branch.to_string())
 }
 
 pub fn get_target_branch_commit_hash(target_branch: &str) -> Result<String> {
