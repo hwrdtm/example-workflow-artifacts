@@ -1,5 +1,5 @@
 use ci_utils::get_target_branch;
-use log::info;
+use log::{debug, info};
 use serde::Deserialize;
 
 #[tokio::main]
@@ -13,10 +13,9 @@ async fn main() {
     let target_branch = get_target_branch(&target_branch).expect("Failed to get target branch");
 
     // Fetch the workflow from the REST API.
-    let req =
-        populate_github_api_headers(reqwest::Client::new().get(
-            "https://api.github.com/repos/hwrdtm/example-workflow-artifacts/actions/workflows",
-        ))
+    let url = "https://api.github.com/repos/hwrdtm/example-workflow-artifacts/actions/workflows";
+    debug!("Fetching workflows from: {}", url);
+    let req = populate_github_api_headers(reqwest::Client::new().get(url))
         .send()
         .await
         .expect("Failed to fetch Github workflows");
@@ -35,13 +34,15 @@ async fn main() {
         .expect("No workflow found with the given name");
 
     // Fetch the workflow runs from the REST API.
-    let req = populate_github_api_headers(reqwest::Client::new().get(&format!(
+    let url = format!(
         "https://api.github.com/repos/hwrdtm/example-workflow-artifacts/actions/workflows/{}/runs?branch={}",
         workflow.id, target_branch
-    )))
-    .send()
-    .await
-    .expect("Failed to fetch Github workflow runs");
+    );
+    debug!("Fetching workflow runs from: {}", url);
+    let req = populate_github_api_headers(reqwest::Client::new().get(url))
+        .send()
+        .await
+        .expect("Failed to fetch Github workflow runs");
     // Deserialize the response into a workflow run list.
     let workflow_run_list: WorkflowRunList = req
         .json()
