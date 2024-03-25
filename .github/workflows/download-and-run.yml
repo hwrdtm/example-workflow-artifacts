@@ -15,6 +15,7 @@ jobs:
       - name: Debug
         run: |
           git config --global pager.branch false
+          git branch -al release-1
           git branch -al 'release-branch-*'
       # Get the workflow run that has the build for the latest release-branch-* branch.
       - name: Get the latest build
