@@ -10,6 +10,8 @@ jobs:
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
       # Get the workflow run that has the build for the latest release-branch-* branch.
       - name: Get the latest build
         id: get_latest_workflow_run_id_release_1
