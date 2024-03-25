@@ -19,12 +19,12 @@ jobs:
         id: get_latest_workflow_run_id_release_1
         # Set the stdout of running `cd ci_utils && cargo run --bin get_latest_workflow_run build release-branch-*` to the output of this step.
         run:
-          echo "LATEST_WORKFLOW_RUN_ID=$(cd ci_utils && cargo run --bin get_latest_workflow_run build release-branch-*)" >> "$GITHUB_OUTPUT"
+          echo "LATEST_WORKFLOW_RUN_ID=$(cd ci_utils && cargo run --bin get_latest_workflow_run build 'origin/release-branch-*')" >> "$GITHUB_OUTPUT"
         env:
           GH_PAT: ${{ secrets.GITHUB_TOKEN }}
       - name: Get the latest commit SHA
         id: get_latest_commit_sha_release_branch
-        run: echo "COMMIT_SHA=$(cd ci_utils && cargo run --bin get_target_branch_commit_hash release-branch-*)" >> "$GITHUB_OUTPUT"
+        run: echo "COMMIT_SHA=$(cd ci_utils && cargo run --bin get_target_branch_commit_hash 'origin/release-branch-*')" >> "$GITHUB_OUTPUT"
       - name: Download the latest build
         uses: actions/download-artifact@v4
         with:
