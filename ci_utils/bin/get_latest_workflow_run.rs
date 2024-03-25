@@ -4,6 +4,8 @@ use serde::Deserialize;
 
 #[tokio::main]
 async fn main() {
+    env_logger::init();
+
     // Get the name of the workflow from the 1st command line argument.
     let workflow_name = std::env::args().nth(1).expect("No workflow name provided");
     // Get the name of the target branch from the 2nd command line argument.
