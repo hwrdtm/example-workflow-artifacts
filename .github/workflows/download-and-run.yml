@@ -21,7 +21,7 @@ jobs:
       - name: Get the latest build
         id: get_latest_workflow_run_id_release_branch
         run:
-          echo "LATEST_WORKFLOW_RUN_ID=$(cd ci_utils && cargo run --bin get_latest_workflow_run_id 'origin/release-branch-*')" >> "$GITHUB_OUTPUT"
+          echo "LATEST_WORKFLOW_RUN_ID=$(cd ci_utils && cargo run --bin get_latest_workflow_run 'origin/release-branch-*')" >> "$GITHUB_OUTPUT"
         env:
           GH_PAT: ${{ secrets.GITHUB_TOKEN }}
       - name: Get the latest commit SHA
