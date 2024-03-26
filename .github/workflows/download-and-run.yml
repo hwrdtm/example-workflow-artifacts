@@ -3,9 +3,6 @@ on:
   workflow_dispatch: {}
   pull_request:
 
-env:
-  RUST_LOG: debug
-
 jobs:
   download_and_run:
     runs-on: ubuntu-latest
@@ -23,11 +20,8 @@ jobs:
       # Get the workflow run that has the build for the latest release-branch-* branch.
       - name: Get the latest build
         id: get_latest_workflow_run_id_release_branch
-        # Run cd ci_utils && cargo run --bin get_latest_workflow_run build 'origin/release-branch-*' and log 2>&1 to a tempfile. 
-        # Extract the run ID from the last line of the tempfile and save it to the GITHUB_OUTPUT file.
-        run: |
-          cd ci_utils
-          RUST_LOG=debug cargo run --bin get_latest_workflow_run build 'origin/release-branch-*'
+        run:
+          echo "LATEST_WORKFLOW_RUN_ID=$(cd ci_utils && cargo run --bin get_latest_workflow_run_id 'origin/release-branch-*')" >> "$GITHUB_OUTPUT"
         env:
           GH_PAT: ${{ secrets.GITHUB_TOKEN }}
       - name: Get the latest commit SHA
