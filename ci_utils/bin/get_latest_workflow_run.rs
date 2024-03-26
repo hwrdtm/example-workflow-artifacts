@@ -12,6 +12,9 @@ async fn main() {
     let target_branch = std::env::args().nth(2).expect("No target branch provided");
     let target_branch = get_target_branch(&target_branch).expect("Failed to get target branch");
 
+    // Remove the 'origin/' prefix if it exists.
+    let target_branch = target_branch.trim_start_matches("origin/");
+
     // Fetch the workflow from the REST API.
     let url = "https://api.github.com/repos/hwrdtm/example-workflow-artifacts/actions/workflows";
     debug!("Fetching workflows from: {}", url);
