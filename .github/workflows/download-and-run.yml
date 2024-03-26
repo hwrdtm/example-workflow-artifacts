@@ -26,7 +26,7 @@ jobs:
           GH_PAT: ${{ secrets.GITHUB_TOKEN }}
       - name: Get the latest commit SHA
         id: get_latest_commit_sha_release_branch
-        run: echo "COMMIT_SHA=$(cd ci_utils && cargo run --bin get_target_branch_commit_hash 'origin/release-branch-*')" >> "$GITHUB_OUTPUT"
+        run: echo "COMMIT_SHA=$(cd ci_utils && RUST_LOG=debug cargo run --bin get_target_branch_commit_hash 'origin/release-branch-*')" >> "$GITHUB_OUTPUT"
       - name: Download the latest build
         uses: actions/download-artifact@v4
         with:
