@@ -50,6 +50,10 @@ pub fn get_target_branch(target_branch: &str) -> Result<String> {
 
     // Strip the 'remotes/' prefix if it exists.
     let target_branch = target_branch.trim_start_matches("remotes/");
+
+    // Strip the 'origin/' prefix if it exists.
+    let target_branch = target_branch.trim_start_matches("origin/");
+
     Ok(target_branch.to_string())
 }
 
